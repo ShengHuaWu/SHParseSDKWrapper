@@ -71,7 +71,7 @@
 
 - (id)objectForKeyedSubscript:(NSString *)key
 {
-    return self.parseObject[key];
+    return self.parseObject[key];    
 }
 
 #pragma mark - Saving

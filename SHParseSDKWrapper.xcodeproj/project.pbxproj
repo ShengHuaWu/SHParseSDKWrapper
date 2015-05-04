@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9F6E098AEF5424DF4F24083A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5A711D9E0B9DC09AA0899E3B /* libPods.a */; };
+		A82A587F1AF7585C0047F59D /* SHObject+ParseObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A82A587E1AF7585C0047F59D /* SHObject+ParseObject.m */; };
 		A8A46C661AF314FD006E3DD6 /* SHParseSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = A8A46C651AF314FD006E3DD6 /* SHParseSDK.m */; };
 		A8A46C691AF31564006E3DD6 /* SHObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A8A46C681AF31564006E3DD6 /* SHObject.m */; };
 		A8A46C6B1AF31869006E3DD6 /* SHObjectTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A8A46C6A1AF31869006E3DD6 /* SHObjectTests.m */; };
@@ -33,6 +34,8 @@
 /* Begin PBXFileReference section */
 		12083AE4E48B655E09A62BEB /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		5A711D9E0B9DC09AA0899E3B /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		A82A587D1AF7585C0047F59D /* SHObject+ParseObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "SHObject+ParseObject.h"; path = "Categories/SHObject+ParseObject.h"; sourceTree = "<group>"; };
+		A82A587E1AF7585C0047F59D /* SHObject+ParseObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "SHObject+ParseObject.m"; path = "Categories/SHObject+ParseObject.m"; sourceTree = "<group>"; };
 		A8A46C641AF314FD006E3DD6 /* SHParseSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHParseSDK.h; path = Classes/SHParseSDK.h; sourceTree = "<group>"; };
 		A8A46C651AF314FD006E3DD6 /* SHParseSDK.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SHParseSDK.m; path = Classes/SHParseSDK.m; sourceTree = "<group>"; };
 		A8A46C671AF31564006E3DD6 /* SHObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SHObject.h; path = Classes/SHObject.h; sourceTree = "<group>"; };
@@ -83,6 +86,15 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		A82A58801AF758600047F59D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				A82A587D1AF7585C0047F59D /* SHObject+ParseObject.h */,
+				A82A587E1AF7585C0047F59D /* SHObject+ParseObject.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		A85DCBA81AF2123C00D681A2 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
@@ -125,6 +137,7 @@
 				A8CE20F71AF20D6500D795B0 /* Supporting Files */,
 				A8CE21231AF20DD700D795B0 /* Controllers */,
 				A85DCBA81AF2123C00D681A2 /* Classes */,
+				A82A58801AF758600047F59D /* Categories */,
 			);
 			path = SHParseSDKWrapper;
 			sourceTree = "<group>";
@@ -308,6 +321,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A82A587F1AF7585C0047F59D /* SHObject+ParseObject.m in Sources */,
 				A8CE20FD1AF20D6500D795B0 /* AppDelegate.m in Sources */,
 				A8A46C691AF31564006E3DD6 /* SHObject.m in Sources */,
 				A8CE21221AF20DD200D795B0 /* MainViewController.m in Sources */,

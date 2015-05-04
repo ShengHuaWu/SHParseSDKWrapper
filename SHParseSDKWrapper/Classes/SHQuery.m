@@ -9,6 +9,7 @@
 #import "SHQuery.h"
 #import <Parse.h>
 #import "SHObject.h"
+#import "SHObject+ParseObject.h"
 
 @interface SHQuery ()
 
@@ -24,6 +25,11 @@
     return [[self alloc] initWithClassName:name];
 }
 
++ (instancetype)queryWithClassName:(NSString *)name predicate:(NSPredicate *)predicate
+{
+    return [[self alloc] initWithClassName:name predicate:predicate];
+}
+
 #pragma mark - Designated initializer
 - (instancetype)initWithClassName:(NSString *)name
 {
@@ -34,22 +40,41 @@
     return self;
 }
 
+- (instancetype)initWithClassName:(NSString *)name predicate:(NSPredicate *)predicate
+{
+    self = [super init];
+    if (self) {
+        _query = [PFQuery queryWithClassName:name predicate:predicate];
+    }
+    return self;
+}
+
 #pragma mark - Finding object
-- (void)findObjectWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler
+- (void)findObjectInBackgroundWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler
 {
     [self.query getObjectInBackgroundWithId:objectID block:^(PFObject *parseObject,  NSError *error) {
         SHObject *object = nil;
         if (parseObject) {
-            object = [SHObject objectWithClassName:parseObject.parseClassName objectID:parseObject.objectId];
-            object.createdAt = parseObject.createdAt;
-            object.updatedAt = parseObject.updatedAt;
-            for (NSString *key in [parseObject allKeys]) {
-                object[key] = parseObject[key];
-            }
+            object = [SHObject objectWithParseObject:parseObject];
         }
         
         if (handler) {
             handler(object, error);
+        }
+    }];
+}
+
+- (void)findObjectsInBackgroundWithHandler:(SHQueryFindingObjectsCompletionHandler)hander
+{
+    [self.query findObjectsInBackgroundWithBlock:^(NSArray *parseObjects, NSError *error) {
+        NSMutableArray *objects = [NSMutableArray array];
+        for (PFObject *parseObject in parseObjects) {
+            SHObject *object = [SHObject objectWithParseObject:parseObject];
+            [objects addObject:object];
+        }
+        
+        if (hander) {
+            hander([objects copy], error);
         }
     }];
 }

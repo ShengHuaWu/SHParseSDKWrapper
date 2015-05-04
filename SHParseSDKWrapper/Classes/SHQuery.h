@@ -11,11 +11,14 @@
 @class SHObject;
 
 typedef void (^SHQueryFindingObjectCompletionHandler) (SHObject *object, NSError *error);
+typedef void (^SHQueryFindingObjectsCompletionHandler) (NSArray *objects, NSError *error);
 
 @interface SHQuery : NSObject
 
 + (instancetype)queryWithClassName:(NSString *)name;
++ (instancetype)queryWithClassName:(NSString *)name predicate:(NSPredicate *)predicate;
 
-- (void)findObjectWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler;
+- (void)findObjectInBackgroundWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler;
+- (void)findObjectsInBackgroundWithHandler:(SHQueryFindingObjectsCompletionHandler)hander;
 
 @end

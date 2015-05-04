@@ -35,11 +35,51 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"Find Single Object"];
     
     SHQuery *query = [SHQuery queryWithClassName:@"Place"];
-    [query findObjectWithID:@"VqrnVS9QYg" handler:^(SHObject *object, NSError *error) {
+    [query findObjectInBackgroundWithID:@"VqrnVS9QYg" handler:^(SHObject *object, NSError *error) {
         XCTAssertNil(error, @"Finding failed: %@", [error localizedDescription]);
         XCTAssertNotNil(object, @"Do not find any object.");
         XCTAssertNotNil(object.objectID, @"Object ID is empty");
         XCTAssertNotNil(object.updatedAt, @"Updated date is empty");
+        
+        [expectation fulfill];
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        XCTAssertNil(error, @"Error occur: %@", [error localizedDescription]);
+    }];
+}
+
+- (void)testUpdateObjectAttributes
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Update Object Attributes"];
+    
+    SHQuery *query = [SHQuery queryWithClassName:@"Place"];
+    [query findObjectInBackgroundWithID:@"VqrnVS9QYg" handler:^(SHObject *object, NSError *error) {
+        XCTAssertNil(error, @"Finding failed: %@", [error localizedDescription]);
+        
+        object[@"name"] = @"we're family";
+        object[@"phone"] = @"987654";
+        
+        [object saveInBackgroundWithHandler:^(BOOL success, NSError *error) {
+            XCTAssert(success, @"Updating failed: %@", [error localizedDescription]);
+            
+            [expectation fulfill];
+        }];
+    }];
+    
+    [self waitForExpectationsWithTimeout:5.0 handler:^(NSError *error) {
+        XCTAssertNil(error, @"Error occur: %@", [error localizedDescription]);
+    }];
+}
+
+- (void)testFindObjectsWithPredicate
+{
+    XCTestExpectation *expectation = [self expectationWithDescription:@"Find Objects with Predicate"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"address == %@", @"taipei"];
+    SHQuery *query = [SHQuery queryWithClassName:@"Place" predicate:predicate];
+    [query findObjectsInBackgroundWithHandler:^(NSArray *objects, NSError *error) {
+        XCTAssertNil(error, @"Finding failed: %@", [error localizedDescription]);
+        XCTAssertEqual([objects count], 2, @"Number of objects is wrong.");
         
         [expectation fulfill];
     }];
