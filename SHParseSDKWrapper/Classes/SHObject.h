@@ -23,7 +23,10 @@ typedef void (^SHObjectDeletionCompletionHandler) (BOOL success, NSError *error)
 - (void)setObject:(id)object forKeyedSubscript:(NSString *)key;
 - (id)objectForKeyedSubscript:(NSString *)key;
 
++ (void)saveAllInBackground:(NSArray *)objects withHandler:(SHObjectSavingCompletionHandler)handler;
 - (void)saveInBackgroundWithHandler:(SHObjectSavingCompletionHandler)hander;
+
++ (void)deleteAllInBackground:(NSArray *)objects withHandler:(SHObjectDeletionCompletionHandler)handler;
 - (void)deleteInBackgroundWithHandler:(SHObjectDeletionCompletionHandler)hander;
 
 @end

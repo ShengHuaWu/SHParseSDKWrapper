@@ -18,6 +18,8 @@ typedef void (^SHQueryFindingObjectsCompletionHandler) (NSArray *objects, NSErro
 + (instancetype)queryWithClassName:(NSString *)name;
 + (instancetype)queryWithClassName:(NSString *)name predicate:(NSPredicate *)predicate;
 
+- (void)setLimit:(NSInteger)limit;
+
 - (void)findObjectInBackgroundWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler;
 - (void)findObjectsInBackgroundWithHandler:(SHQueryFindingObjectsCompletionHandler)hander;
 

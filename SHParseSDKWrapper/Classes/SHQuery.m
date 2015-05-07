@@ -49,6 +49,12 @@
     return self;
 }
 
+#pragma mark - Limit
+- (void)setLimit:(NSInteger)limit
+{
+    self.query.limit = limit;
+}
+
 #pragma mark - Finding object
 - (void)findObjectInBackgroundWithID:(NSString *)objectID handler:(SHQueryFindingObjectCompletionHandler)handler
 {
@@ -74,7 +80,7 @@
         }
         
         if (hander) {
-            hander([objects copy], error);
+            hander(objects, error);
         }
     }];
 }

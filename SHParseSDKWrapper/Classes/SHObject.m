@@ -74,15 +74,40 @@
     return self.parseObject[key];    
 }
 
+- (void)updateAttributesAfterSaving
+{
+    self.updatedAt = self.parseObject.updatedAt;
+    self.createdAt = self.parseObject.createdAt;
+    self.objectID = self.parseObject.objectId;
+}
+
 #pragma mark - Saving
++ (void)saveAllInBackground:(NSArray *)objects withHandler:(SHObjectSavingCompletionHandler)handler
+{
+    NSMutableArray *parseObjects = [NSMutableArray array];
+    for (SHObject *object in objects) {
+        [parseObjects addObject:object.parseObject];
+    }
+    
+    [PFObject saveAllInBackground:parseObjects block:^(BOOL success, NSError *error) {
+        if (success) {
+            for (SHObject *object in objects) {
+                [object updateAttributesAfterSaving];
+            }
+        }
+        
+        if (handler) {
+            handler(success, error);
+        }
+    }];
+}
+
 - (void)saveInBackgroundWithHandler:(SHObjectSavingCompletionHandler)hander
 {
     SHObject *__weak weakSelf = self;
-    [self.parseObject saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
+    [weakSelf.parseObject saveInBackgroundWithBlock:^(BOOL success, NSError *error) {
         if (success) {
-            weakSelf.createdAt = weakSelf.parseObject.createdAt;
-            weakSelf.updatedAt = weakSelf.parseObject.updatedAt;
-            weakSelf.objectID = weakSelf.parseObject.objectId;
+            [weakSelf updateAttributesAfterSaving];
         }
         
         if (hander) {
@@ -92,6 +117,20 @@
 }
 
 #pragma mark - Deletion
++ (void)deleteAllInBackground:(NSArray *)objects withHandler:(SHObjectDeletionCompletionHandler)handler
+{
+    NSMutableArray *parseObjects = [NSMutableArray array];
+    for (SHObject *object in objects) {
+        [parseObjects addObject:object.parseObject];
+    }
+    
+    [PFObject deleteAllInBackground:parseObjects block:^(BOOL success, NSError *error) {
+        if (handler) {
+            handler(success, error);
+        }
+    }];
+}
+
 - (void)deleteInBackgroundWithHandler:(SHObjectDeletionCompletionHandler)hander
 {
     [self.parseObject deleteInBackgroundWithBlock:^(BOOL success, NSError *error) {
